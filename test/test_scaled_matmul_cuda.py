@@ -3488,7 +3488,6 @@ class TestFP8Matmul(TestCase, _TestFP8MatmulMixin):
 
 class TestFP8MatmulCudaOnly(TestCase, _TestFP8MatmulMixin):
 
-    @onlyCUDA
     @skipIfRocm
     @unittest.skipIf(not PLATFORM_SUPPORTS_FP8, f8_msg)
     def test_scaled_addmm_cudagraph(self, device):
@@ -3498,7 +3497,6 @@ class TestFP8MatmulCudaOnly(TestCase, _TestFP8MatmulMixin):
         args = tensorwise_scaled_mm_args(mat1, mat2, scale_a, scale_b)
         self.assert_scaled_addmm_cudagraph(input, scaled_addmm(input, *args), args)
 
-    @onlyCUDA
     @skipIfRocm
     @unittest.skipIf(not IS_SM90, "cuBLASLt accumulation requires SM90")
     @unittest.skipIf(
@@ -3547,7 +3545,6 @@ class TestFP8MatmulCudaOnly(TestCase, _TestFP8MatmulMixin):
         )
         self.assertEqual(actual, expected, atol=5e-2, rtol=5e-2)
 
-    @onlyCUDA
     @unittest.skipIf(IS_WINDOWS, "Windows doesn't support row-wise scaling")
     @unittest.skipIf(not PLATFORM_SUPPORTS_FP8, f8_msg)
     @unittest.skipIf(not SM90OrLater, "sm89 kernel isn't opted into carveout yet")
@@ -3631,7 +3628,6 @@ class TestFP8MatmulCudaOnly(TestCase, _TestFP8MatmulMixin):
                     self.assertNotEqual(no_carveout, carveout_66)
                     self.assertNotEqual(carveout_66, carveout_0)
 
-    @onlyCUDA
     @skipIfRocm
     @unittest.skipIf(not PLATFORM_SUPPORTS_FP8, f8_msg)
     def test_scaled_addmm_inplace_tunableop(self, device):
@@ -3661,7 +3657,6 @@ class TestFP8MatmulCudaOnly(TestCase, _TestFP8MatmulMixin):
             torch.cuda.tunable.tuning_enable(prev_tuning)
             torch.cuda.tunable.enable(prev_enabled)
 
-    @onlyCUDA
     @unittest.skipIf(not PLATFORM_SUPPORTS_FP8, f8_msg)
     @skipCUDAIfNotRocm
     @skipIfTorchDynamo("error message checks rely on eager exception types")
@@ -3698,7 +3693,6 @@ class TestFP8MatmulCudaOnly(TestCase, _TestFP8MatmulMixin):
                 out_dtype=torch.bfloat16,
             )
 
-    @onlyCUDA
     @unittest.skipIf(not PLATFORM_SUPPORTS_MX_GEMM, mx_skip_msg)
     @skipCUDAIfNotRocm
     @skipIfTorchDynamo("error message checks rely on eager exception types")
