@@ -2933,6 +2933,7 @@ class TestFP8MatmulDevice(TestCase, _TestFP8MatmulMixin):
             )
 
 
+    @skipIfTorchDynamo("error message checks rely on eager exception types")
     @unittest.skipIf(not PLATFORM_SUPPORTS_MX_GEMM or IS_WINDOWS, mx_skip_msg)
     @parametrize("recipe", ["mxfp8", "mxfp4", "nvfp4"])
     def test_blockwise_mxfp8_nvfp4_mxfp4_error_messages(self, device, recipe) -> None:
